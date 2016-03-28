@@ -1,6 +1,6 @@
 Package: rprojroot
 Title: Finding Files in Project Subdirectories
-Version: 1.0-1
+Version: 1.0-2
 Authors@R: person(given = "Kirill", family = "Müller", role = c("aut",
         "cre"), email = "krlmlr+r@mailbox.org")
 Description: Robust, reliable and flexible paths to files below a
@@ -18,10 +18,10 @@ URLNote: https://github.com/krlmlr/rprojroot
 BugReports: https://github.com/krlmlr/rprojroot/issues
 RoxygenNote: 5.0.1
 Collate: 'rrmake.R' 'criterion.R' 'file.R' 'has-file.R' 'root.R'
-        'shortcut.R' 'zzz-autoroxy.R'
+        'shortcut.R'
 NeedsCompilation: no
-Packaged: 2016-03-27 18:11:54 UTC; muelleki
+Packaged: 2016-03-28 13:47:20 UTC; muelleki
 Author: Kirill Müller [aut, cre]
 Maintainer: Kirill Müller <krlmlr+r@mailbox.org>
 Repository: CRAN
-Date/Publication: 2016-03-27 20:44:09
+Date/Publication: 2016-03-28 16:45:02

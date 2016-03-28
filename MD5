@@ -1,13 +1,12 @@
-bdf8d5d4bcb2dbc60520b6597cdf219f *DESCRIPTION
+9995554118f9ea963df0492fc53a2129 *DESCRIPTION
 2b355bebe9b0114df933a223d551dd23 *NAMESPACE
-ceef8a5cfbf6e3987d04c59c6222360c *NEWS.md
+067d7e818e310f03d2837f540d5d9639 *NEWS.md
 7ba6d44cbce2cadaafcab6d4648678de *R/criterion.R
 31a3d45f933138f4619f7ce788f9cc9b *R/file.R
 96865bf59ed60a3fbcc9aaee2f44e8e7 *R/has-file.R
 cf4dd3c2a7fbe15d5d4cf770049759b6 *R/root.R
 dd227290335dea57e2a1031a5b5beb35 *R/rrmake.R
 821f2ab387c0517df8cb2d02be25c95d *R/shortcut.R
-46b46b30368c8cd26f621d18c5297032 *R/zzz-autoroxy.R
 139851ae3c756c17179e280280b9fd83 *build/vignette.rds
 998914db4855072d2daf3eb31e1bc802 *inst/doc/rprojroot.R
 4e9d465a8e19000530e114cf50d2d735 *inst/doc/rprojroot.Rmd
@@ -24,6 +23,6 @@ d41d8cd98f00b204e9800998ecf8427e *tests/testthat/hierarchy/a/b/c/d
 55e116ea754236d78e4e6342adbe3661 *tests/testthat/hierarchy/b
 d41d8cd98f00b204e9800998ecf8427e *tests/testthat/hierarchy/c
 1f28b97b741676cfadff80a1e8d5d676 *tests/testthat/test-criterion.R
-2973953455e108ccb731640abeb79096 *tests/testthat/test-make.R
+ce3ca96d5d38e1c0972d639a81f659c1 *tests/testthat/test-make.R
 b4eecff23a058358aa2d93ac3a5960d0 *tests/testthat/test-root.R
 086515a6c94b1a68abbd29f3a1a7e352 *vignettes/rprojroot.Rmd
