@@ -66,14 +66,16 @@ use the `root$find_file()` function:
 readLines(root$find_file("DESCRIPTION"), 3)
 ```
 
-If the current working directory can be outside of your project,
+You can also
 construct an accessor to your root using the `root$make_fix_file()` function:
 
 ```{r}
 root_file <- root$make_fix_file()
 ```
 
-Note that `root_file()` is a *function* that will find files below your root:
+
+Note that `root_file()` is a *function* that works just like `$find_file()` but
+will find the files even if the current working directory is outside your project:
 
 ```{r}
 withr::with_dir(
@@ -176,6 +178,12 @@ is_projecttemplate_project <- has_file("config/global.dcf", "^version: ")
 is_projecttemplate_project
 ```
 
+You can also combine criteria via the `|` operator:
+
+```{r}
+is_r_package | is_rstudio_project
+```
+
 
 
 ### Shortcuts
@@ -205,6 +213,7 @@ As our project does not have a file named `LICENSE`, querying the root results i
 ```{r error = TRUE}
 # Use the has_license criterion to find the root
 R <- has_license$find_file
+R
 
 # Our package does not have a LICENSE file, trying to find the root results in an error
 R()
@@ -219,10 +228,16 @@ that computes a path relative to the root *at creation time*.
 ```{r}
 # Define a function that computes file paths below the current root
 F <- is_r_package$make_fix_file()
+F
 
 # Show contents of the NAMESPACE file in our project
 readLines(F("NAMESPACE"))
 ```
+
+This is a more robust alternative to `$find_file()`, because it *fixes* the project
+directory when `$make_fix_file()` is called, instead of searching for it every
+time.  (For that reason it is also slightly faster, but I doubt this matters
+in practice.)
 
 This function can be used even if we later change the working directory to somewhere outside the project:
 
@@ -238,6 +253,33 @@ The `make_fix_file()` member function also accepts an optional `path` argument,
 in case you know your project's root but the current working directory is somewhere outside.
 Take a look at the `thisfile()` function in the `kimisc` package for getting
 the path to the current script or `knitr` document.
+
+
+## `testthat` files
+
+Tests run with [`testthat`](https://cran.r-project.org/package=testthat)
+commonly use files that live below the `tests/testthat` directory.
+Ideally, this should work in the following situation:
+
+- During package development (working directory: package root)
+- When testing with `devtools::test()` (working directory: `tests/testthat`)
+- When running `R CMD check` (working directory: a renamed recursive copy of `tests`)
+
+The `is_testthat` criterion allows robust lookup of test files.
+
+```{r}
+is_testthat
+```
+
+The example code below lists all files in the
+[hierarchy](https://github.com/krlmlr/rprojroot/tree/master/tests/testthat/hierarchy)
+test directory.
+It uses two project root lookups in total,
+so that it also works when rendering the vignette (*sigh*):
+
+```{r}
+dir(is_testthat$find_file("hierarchy", path = is_r_package$find_file()))
+```
 
 
 ## Summary

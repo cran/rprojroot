@@ -1,14 +1,29 @@
-## ----echo=FALSE----------------------------------------------------------
-knitr::opts_chunk$set(error = TRUE)
-
 ## ------------------------------------------------------------------------
 basename(getwd())
 
 ## ------------------------------------------------------------------------
-library(rprojroot)
+rprojroot::is_r_package
 
-# List all files and directories below the root
-dir(find_root("DESCRIPTION"))
+## ------------------------------------------------------------------------
+rprojroot::is_rstudio_project
+
+## ------------------------------------------------------------------------
+rprojroot::has_file(".git/index")
+
+## ------------------------------------------------------------------------
+root <- rprojroot::is_r_package
+
+## ------------------------------------------------------------------------
+readLines(root$find_file("DESCRIPTION"), 3)
+
+## ------------------------------------------------------------------------
+root_file <- root$make_fix_file()
+
+## ------------------------------------------------------------------------
+withr::with_dir(
+  "../..",
+  readLines(root_file("DESCRIPTION"), 3)
+)
 
 ## ------------------------------------------------------------------------
 library(rprojroot)
@@ -36,6 +51,9 @@ is_projecttemplate_project <- has_file("config/global.dcf", "^version: ")
 is_projecttemplate_project
 
 ## ------------------------------------------------------------------------
+is_r_package | is_rstudio_project
+
+## ------------------------------------------------------------------------
 # Print first lines of the source for this document
 head(readLines(find_package_root_file("vignettes", "rprojroot.Rmd")))
 
@@ -47,23 +65,30 @@ file.exists(P("vignettes", "rprojroot.Rmd"))
 
 ## ----error = TRUE--------------------------------------------------------
 # Use the has_license criterion to find the root
-R <- make_find_root_file(has_license)
+R <- has_license$find_file
+R
 
 # Our package does not have a LICENSE file, trying to find the root results in an error
 R()
 
 ## ------------------------------------------------------------------------
 # Define a function that computes file paths below the current root
-F <- make_fix_root_file(is_r_package)
+F <- is_r_package$make_fix_file()
+F
 
 # Show contents of the NAMESPACE file in our project
 readLines(F("NAMESPACE"))
 
 ## ------------------------------------------------------------------------
 # Print the size of the namespace file, working directory outside the project
-local({
-  oldwd <- setwd("../..")
-  on.exit(setwd(oldwd), add = TRUE)
+withr::with_dir(
+  "../..",
   file.size(F("NAMESPACE"))
-})
+)
+
+## ------------------------------------------------------------------------
+is_testthat
+
+## ------------------------------------------------------------------------
+dir(is_testthat$find_file("hierarchy", path = is_r_package$find_file()))
 

@@ -2,8 +2,10 @@
 % Please edit documentation in R/file.R, R/shortcut.R
 \name{find_root_file}
 \alias{find_package_root_file}
+\alias{find_remake_root_file}
 \alias{find_root_file}
 \alias{find_rstudio_root_file}
+\alias{find_testthat_root_file}
 \title{File paths relative to the root of a directory hierarchy}
 \usage{
 find_root_file(..., criterion, path = ".")
@@ -11,9 +13,13 @@ find_root_file(..., criterion, path = ".")
 find_rstudio_root_file(..., path = ".")
 
 find_package_root_file(..., path = ".")
+
+find_remake_root_file(..., path = ".")
+
+find_testthat_root_file(..., path = ".")
 }
 \arguments{
-\item{...}{Additional arguments passed to \code{\link{file.path}}}
+\item{...}{Further path components passed to \code{\link{file.path}}}
 
 \item{criterion}{A criterion, will be coerced using
 \code{\link{as.root_criterion}}}
@@ -21,7 +27,8 @@ find_package_root_file(..., path = ".")
 \item{path}{The start directory}
 }
 \value{
-The normalized path of the root as specified by the search criteria.
+The normalized path of the root as specified by the search criteria,
+  with the additional path components appended.
   Throws an error if no root is found
 }
 \description{
@@ -33,18 +40,12 @@ The \code{find_root_file} function is a simple wrapper around
 \code{\link{find_root}} that
 appends an arbitrary number of path components to the root using
 \code{\link[base]{file.path}}.
-The function \code{make_find_root_file} can be used to create shorthand functions
-such as \code{find_rstudio_root_file} and \code{find_package_root_file}.
-In many cases, the function \code{make_fix_root_file} is even more useful:
-It creates a shorthand function that is tied to a fixed root (as opposed to
-\code{make_find_root_file} which creates a function that will look for the
-root every time it is called).
 }
 \examples{
 \dontrun{
 find_package_root_file("tests", "testthat.R")
-make_find_root_file(glob2rx("DESCRIPTION"), "^Package: ")
-make_fix_root_file(glob2rx("DESCRIPTION"), "^Package: ")
+has_file("DESCRIPTION", "^Package: ")$find_file
+has_file("DESCRIPTION", "^Package: ")$make_fix_file(".")
 }
 
 }
