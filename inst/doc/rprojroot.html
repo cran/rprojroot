@@ -12,7 +12,7 @@
 
 <meta name="author" content="Kirill Müller" />
 
-<meta name="date" content="2016-10-29" />
+<meta name="date" content="2017-01-16" />
 
 <title>Finding files in project subdirectories</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Finding files in project subdirectories</h1>
 <h4 class="author"><em>Kirill Müller</em></h4>
-<h4 class="date"><em>2016-10-29</em></h4>
+<h4 class="date"><em>2017-01-16</em></h4>
 
 
 
@@ -89,20 +89,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>TL;DR</h2>
 <p>What is your project: An R package?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rprojroot::is_r_package</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'DESCRIPTION' with contents matching '^Package: '</code></pre>
+<pre><code>## Root criterion: contains a file `DESCRIPTION` with contents matching `^Package: `</code></pre>
 <p>Or an RStudio project?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rprojroot::is_rstudio_project</code></pre></div>
-<pre><code>## Root criterion: Contains a file matching '[.]Rproj$' with contents matching '^Version: ' in the first 1 lines</code></pre>
+<pre><code>## Root criterion: contains a file matching `[.]Rproj$` with contents matching `^Version: ` in the first line</code></pre>
 <p>Or something else?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rprojroot::<span class="kw">has_file</span>(<span class="st">&quot;.git/index&quot;</span>)</code></pre></div>
-<pre><code>## Root criterion: Contains a file '.git/index'</code></pre>
+<pre><code>## Root criterion: contains a file `.git/index`</code></pre>
 <p>For now, we assume it’s an R package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">root &lt;-<span class="st"> </span>rprojroot::is_r_package</code></pre></div>
 <p>The <code>root</code> object contains a function that helps locating files below the root of your package, regardless of your current working directory. If you are sure that your working directory is somewhere below your project’s root, use the <code>root$find_file()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(root$<span class="kw">find_file</span>(<span class="st">&quot;DESCRIPTION&quot;</span>), <span class="dv">3</span>)</code></pre></div>
 <pre><code>## [1] &quot;Package: rprojroot&quot;                            
 ## [2] &quot;Title: Finding Files in Project Subdirectories&quot;
-## [3] &quot;Version: 1.1&quot;</code></pre>
+## [3] &quot;Version: 1.2&quot;</code></pre>
 <p>You can also construct an accessor to your root using the <code>root$make_fix_file()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">root_file &lt;-<span class="st"> </span>root$<span class="kw">make_fix_file</span>()</code></pre></div>
 <p>Note that <code>root_file()</code> is a <em>function</em> that works just like <code>$find_file()</code> but will find the files even if the current working directory is outside your project:</p>
@@ -112,7 +112,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 )</code></pre></div>
 <pre><code>## [1] &quot;Package: rprojroot&quot;                            
 ## [2] &quot;Title: Finding Files in Project Subdirectories&quot;
-## [3] &quot;Version: 1.1&quot;</code></pre>
+## [3] &quot;Version: 1.2&quot;</code></pre>
 <p>If you know the absolute path of some directory below your project, but cannot be sure of your current working directory, pass that absolute path to <code>root$make_fix_file()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">root_file &lt;-<span class="st"> </span>root$<span class="kw">make_fix_file</span>(<span class="st">&quot;C:</span><span class="ch">\\</span><span class="st">Users</span><span class="ch">\\</span><span class="st">User Name</span><span class="ch">\\</span><span class="st">...&quot;</span>)</code></pre></div>
 <p>Get the path of standalone R scripts or vignettes using the <code>thisfile()</code> function in the <code>kimisc</code> package:</p>
@@ -134,12 +134,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="co"># List all files and directories below the root</span>
 <span class="kw">dir</span>(<span class="kw">find_root</span>(<span class="kw">has_file</span>(<span class="st">&quot;DESCRIPTION&quot;</span>)))</code></pre></div>
-<pre><code>##  [1] &quot;DESCRIPTION&quot;      &quot;Makefile&quot;         &quot;NAMESPACE&quot;       
-##  [4] &quot;NEWS.md&quot;          &quot;R&quot;                &quot;README.md&quot;       
-##  [7] &quot;_pkgdown.yml&quot;     &quot;appveyor.yml&quot;     &quot;cran-comments.md&quot;
-## [10] &quot;docs&quot;             &quot;inst&quot;             &quot;man&quot;             
-## [13] &quot;readme&quot;           &quot;revdep&quot;           &quot;rprojroot.Rproj&quot; 
-## [16] &quot;scripts&quot;          &quot;tests&quot;            &quot;vignettes&quot;</code></pre>
+<pre><code>##  [1] &quot;API&quot;              &quot;DESCRIPTION&quot;      &quot;Makefile&quot;        
+##  [4] &quot;NAMESPACE&quot;        &quot;NEWS.md&quot;          &quot;R&quot;               
+##  [7] &quot;README.md&quot;        &quot;_pkgdown.yml&quot;     &quot;appveyor.yml&quot;    
+## [10] &quot;cran-comments.md&quot; &quot;docs&quot;             &quot;inst&quot;            
+## [13] &quot;man&quot;              &quot;readme&quot;           &quot;revdep&quot;          
+## [16] &quot;rprojroot.Rproj&quot;  &quot;tests&quot;            &quot;tic.R&quot;           
+## [19] &quot;vignettes&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Find a file relative to the root</span>
 <span class="kw">file.exists</span>(<span class="kw">find_root_file</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;root.R&quot;</span>, <span class="dt">criterion =</span> <span class="kw">has_file</span>(<span class="st">&quot;DESCRIPTION&quot;</span>)))</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -149,39 +150,55 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Criteria</h3>
 <p>The <code>has_file()</code> function (and the more general <code>root_criterion()</code>) both return an S3 object of class <code>root_criterion</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">has_file</span>(<span class="st">&quot;DESCRIPTION&quot;</span>)</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'DESCRIPTION'</code></pre>
+<pre><code>## Root criterion: contains a file `DESCRIPTION`</code></pre>
 <p>In addition, character values are coerced to <code>has_file</code> criteria by default, this coercion is applied automatically by <code>find_root()</code>. (This feature is used by the introductory example.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.root_criterion</span>(<span class="st">&quot;DESCRIPTION&quot;</span>)</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'DESCRIPTION'</code></pre>
-<p>The return value of these functions can be stored and reused; in fact, the package provides 5 such criteria:</p>
+<pre><code>## Root criterion: contains a file `DESCRIPTION`</code></pre>
+<p>The return value of these functions can be stored and reused; in fact, the package provides 9 such criteria:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">criteria</code></pre></div>
 <pre><code>## $is_rstudio_project
-## Root criterion: Contains a file matching '[.]Rproj$' with contents matching '^Version: ' in the first 1 lines
+## Root criterion: contains a file matching `[.]Rproj$` with contents matching `^Version: ` in the first line
 ## 
 ## $is_r_package
-## Root criterion: Contains a file 'DESCRIPTION' with contents matching '^Package: '
+## Root criterion: contains a file `DESCRIPTION` with contents matching `^Package: `
 ## 
 ## $is_remake_project
-## Root criterion: Contains a file 'remake.yml'
+## Root criterion: contains a file `remake.yml`
+## 
+## $is_projectile_project
+## Root criterion: contains a file `.projectile`
+## 
+## $is_git_root
+## Root criterion: contains a directory `.git`
+## 
+## $is_svn_root
+## Root criterion: contains a directory `.svn`
+## 
+## $is_vcs_root
+## Root criterion: one of
+## - contains a directory `.git`
+## - contains a directory `.svn`
 ## 
 ## $is_testthat
-## Root criterion: Directory name is 'testthat' (also look in subdirectories: 'tests/testthat', 'testthat')
+## Root criterion: directory name is `testthat` (also look in subdirectories: `tests/testthat`, `testthat`)
 ## 
 ## $from_wd
-## Root criterion: From current working directory
+## Root criterion: from current working directory
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;root_criteria&quot;</code></pre>
 <p>Defining new criteria is easy:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_license &lt;-<span class="st"> </span><span class="kw">has_file</span>(<span class="st">&quot;LICENSE&quot;</span>)
 has_license</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'LICENSE'</code></pre>
+<pre><code>## Root criterion: contains a file `LICENSE`</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">is_projecttemplate_project &lt;-<span class="st"> </span><span class="kw">has_file</span>(<span class="st">&quot;config/global.dcf&quot;</span>, <span class="st">&quot;^version: &quot;</span>)
 is_projecttemplate_project</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'config/global.dcf' with contents matching '^version: '</code></pre>
+<pre><code>## Root criterion: contains a file `config/global.dcf` with contents matching `^version: `</code></pre>
 <p>You can also combine criteria via the <code>|</code> operator:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">is_r_package |<span class="st"> </span>is_rstudio_project</code></pre></div>
-<pre><code>## Root criterion: Contains a file 'DESCRIPTION' with contents matching '^Package: ', or Contains a file matching '[.]Rproj$' with contents matching '^Version: ' in the first 1 lines</code></pre>
+<pre><code>## Root criterion: one of
+## - contains a file `DESCRIPTION` with contents matching `^Package: `
+## - contains a file matching `[.]Rproj$` with contents matching `^Version: ` in the first line</code></pre>
 </div>
 <div id="shortcuts" class="section level3">
 <h3>Shortcuts</h3>
@@ -208,11 +225,10 @@ R</code></pre></div>
 ## {
 ##     find_root_file(..., criterion = criterion, path = path)
 ## }
-## &lt;environment: 0x4b5e610&gt;</code></pre>
+## &lt;environment: 0x55ca0ef0cf10&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Our package does not have a LICENSE file, trying to find the root results in an error</span>
 <span class="kw">R</span>()</code></pre></div>
-<pre><code>## Error: No root directory found. Test criterion:
-## Contains a file 'LICENSE'</code></pre>
+<pre><code>## Error: No root directory found in /tmp/Rtmp76Lko7/Rbuild36db711fd839/rprojroot/vignettes or its parent directories. Root criterion: contains a file `LICENSE`</code></pre>
 </div>
 <div id="fixed-root" class="section level3">
 <h3>Fixed root</h3>
@@ -222,10 +238,10 @@ F &lt;-<span class="st"> </span>is_r_package$<span class="kw">make_fix_file</spa
 F</code></pre></div>
 <pre><code>## function (...) 
 ## {
-##     file.path(&quot;/tmp/RtmpDlL9ec/Rbuild2bdb4b2e53a8/rprojroot&quot;, 
+##     file.path(&quot;/tmp/Rtmp76Lko7/Rbuild36db711fd839/rprojroot&quot;, 
 ##         ...)
 ## }
-## &lt;environment: 0x4cb0168&gt;</code></pre>
+## &lt;environment: 0x55ca0cd18718&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Show contents of the NAMESPACE file in our project</span>
 <span class="kw">readLines</span>(<span class="kw">F</span>(<span class="st">&quot;NAMESPACE&quot;</span>))</code></pre></div>
 <pre><code>##  [1] &quot;# Generated by roxygen2: do not edit by hand&quot;
@@ -246,17 +262,23 @@ F</code></pre></div>
 ## [16] &quot;export(find_rstudio_root_file)&quot;              
 ## [17] &quot;export(find_testthat_root_file)&quot;             
 ## [18] &quot;export(from_wd)&quot;                             
-## [19] &quot;export(has_dirname)&quot;                         
-## [20] &quot;export(has_file)&quot;                            
-## [21] &quot;export(has_file_pattern)&quot;                    
-## [22] &quot;export(is.root_criterion)&quot;                   
-## [23] &quot;export(is_r_package)&quot;                        
-## [24] &quot;export(is_remake_project)&quot;                   
-## [25] &quot;export(is_rstudio_project)&quot;                  
-## [26] &quot;export(is_testthat)&quot;                         
-## [27] &quot;export(root_criterion)&quot;                      
-## [28] &quot;import(backports)&quot;                           
-## [29] &quot;importFrom(utils,str)&quot;</code></pre>
+## [19] &quot;export(get_root_desc)&quot;                       
+## [20] &quot;export(has_dir)&quot;                             
+## [21] &quot;export(has_dirname)&quot;                         
+## [22] &quot;export(has_file)&quot;                            
+## [23] &quot;export(has_file_pattern)&quot;                    
+## [24] &quot;export(is.root_criterion)&quot;                   
+## [25] &quot;export(is_git_root)&quot;                         
+## [26] &quot;export(is_projectile_project)&quot;               
+## [27] &quot;export(is_r_package)&quot;                        
+## [28] &quot;export(is_remake_project)&quot;                   
+## [29] &quot;export(is_rstudio_project)&quot;                  
+## [30] &quot;export(is_svn_root)&quot;                         
+## [31] &quot;export(is_testthat)&quot;                         
+## [32] &quot;export(is_vcs_root)&quot;                         
+## [33] &quot;export(root_criterion)&quot;                      
+## [34] &quot;import(backports)&quot;                           
+## [35] &quot;importFrom(utils,str)&quot;</code></pre>
 <p>This is a more robust alternative to <code>$find_file()</code>, because it <em>fixes</em> the project directory when <code>$make_fix_file()</code> is called, instead of searching for it every time. (For that reason it is also slightly faster, but I doubt this matters in practice.)</p>
 <p>This function can be used even if we later change the working directory to somewhere outside the project:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Print the size of the namespace file, working directory outside the project</span>
@@ -264,7 +286,7 @@ withr::<span class="kw">with_dir</span>(
   <span class="st">&quot;../..&quot;</span>,
   <span class="kw">file.size</span>(<span class="kw">F</span>(<span class="st">&quot;NAMESPACE&quot;</span>))
 )</code></pre></div>
-<pre><code>## [1] 752</code></pre>
+<pre><code>## [1] 880</code></pre>
 <p>The <code>make_fix_file()</code> member function also accepts an optional <code>path</code> argument, in case you know your project’s root but the current working directory is somewhere outside. Take a look at the <code>thisfile()</code> function in the <code>kimisc</code> package for getting the path to the current script or <code>knitr</code> document.</p>
 </div>
 </div>
@@ -278,7 +300,7 @@ withr::<span class="kw">with_dir</span>(
 </ul>
 <p>The <code>is_testthat</code> criterion allows robust lookup of test files.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">is_testthat</code></pre></div>
-<pre><code>## Root criterion: Directory name is 'testthat' (also look in subdirectories: 'tests/testthat', 'testthat')</code></pre>
+<pre><code>## Root criterion: directory name is `testthat` (also look in subdirectories: `tests/testthat`, `testthat`)</code></pre>
 <p>The example code below lists all files in the <a href="https://github.com/krlmlr/rprojroot/tree/master/tests/testthat/hierarchy">hierarchy</a> test directory. It uses two project root lookups in total, so that it also works when rendering the vignette (<em>sigh</em>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dir</span>(is_testthat$<span class="kw">find_file</span>(<span class="st">&quot;hierarchy&quot;</span>, <span class="dt">path =</span> is_r_package$<span class="kw">find_file</span>()))</code></pre></div>
 <pre><code>## [1] &quot;DESCRIPTION&quot;     &quot;a&quot;               &quot;b&quot;               &quot;c&quot;              
