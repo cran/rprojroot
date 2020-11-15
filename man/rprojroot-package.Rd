@@ -6,14 +6,13 @@
 \alias{rprojroot-package}
 \title{rprojroot: Finding Files in Project Subdirectories}
 \description{
-Robust, reliable and flexible paths to files below a
-project root. The 'root' of a project is defined as a directory
-that matches a certain criterion, e.g., it contains a certain
-regular file.
+Robust, reliable and flexible paths to files below
+    a project root. The 'root' of a project is defined as a directory that
+    matches a certain criterion, e.g., it contains a certain regular file.
 }
 \details{
 See the "Value" section in \code{\link[=root_criterion]{root_criterion()}} for documentation
-of root criterion objects, and  \code{\link[=criteria]{criteria()}} for useful predefined
+of root criterion objects, and  \link{criteria} for useful predefined
 root criteria.
 }
 \examples{
@@ -27,13 +26,13 @@ root_fun("NAMESPACE")
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/krlmlr/rprojroot}
-  \item \url{https://krlmlr.github.io/rprojroot}
-  \item Report bugs at \url{https://github.com/krlmlr/rprojroot/issues}
+  \item \url{https://rprojroot.r-lib.org/}
+  \item \url{https://github.com/r-lib/rprojroot}
+  \item Report bugs at \url{https://github.com/r-lib/rprojroot/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Kirill Müller \email{krlmlr+r@mailbox.org}
+\strong{Maintainer}: Kirill Müller \email{krlmlr+r@mailbox.org} (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})
 
 }
