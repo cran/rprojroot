@@ -80,7 +80,10 @@ print.root_criterion <- function(x, ...) {
 #'
 #' @examples
 #' \dontrun{
-#' find_root(glob2rx("DESCRIPTION"), "^Package: ")
+#' find_root(has_file_pattern(
+#'   pattern = glob2rx("DESCRIPTION"),
+#'   contents = "^Package: "
+#' ))
 #' }
 #'
 #' @seealso [utils::glob2rx()] [file.path()]
@@ -99,7 +102,7 @@ find_root <- function(criterion, path = ".") {
       }
     }
 
-    if (is_root(path)) {
+    if (is_fs_root(path)) {
       stop("No root directory found in ", start_path, " or its parent directories. ",
         paste(format(criterion), collapse = "\n"),
         call. = FALSE
@@ -128,10 +131,10 @@ get_start_path <- function(path, subdirs) {
 }
 
 # Borrowed from devtools
-is_root <- function(path) {
+is_fs_root <- function(path) {
   identical(
-    normalizePath(path, winslash = "/"),
-    normalizePath(dirname(path), winslash = "/")
+    normalizePath(path, winslash = "/", mustWork = FALSE),
+    normalizePath(dirname(path), winslash = "/", mustWork = FALSE)
   )
 }
 
@@ -310,6 +313,9 @@ has_basename <- function(basename, subdir = NULL) {
 is_rstudio_project <- has_file_pattern("[.]Rproj$", contents = "^Version: ", n = 1L)
 
 #' @export
+is_vscode_project <- has_dir(".vscode")
+
+#' @export
 is_r_package <- has_file("DESCRIPTION", contents = "^Package: ")
 
 #' @export
@@ -319,7 +325,16 @@ is_remake_project <- has_file("remake.yml")
 is_drake_project <- has_dir(".drake")
 
 #' @export
-is_pkgdown_project <- has_file("_pkgdown.yml") | has_file("_pkgdown.yaml") | has_file("pkgdown/_pkgdown.yml") | has_file("inst/_pkgdown.yml")
+is_targets_project <- has_file("_targets.R")
+
+#' @export
+is_pkgdown_project <-
+  has_file("_pkgdown.yml") |
+    has_file("_pkgdown.yaml") |
+    has_file("pkgdown/_pkgdown.yml") |
+    has_file("pkgdown/_pkgdown.yaml") |
+    has_file("inst/_pkgdown.yml") |
+    has_file("inst/_pkgdown.yaml")
 
 #' @export
 is_renv_project <- has_file("renv.lock", contents = '"Packages":\\s*\\{')
@@ -355,6 +370,7 @@ from_wd <- root_criterion(function(path) TRUE, "from current working directory")
 criteria <- structure(
   list(
     is_rstudio_project = is_rstudio_project,
+    is_vscode_project = is_vscode_project,
     is_r_package = is_r_package,
     is_remake_project = is_remake_project,
     is_pkgdown_project = is_pkgdown_project,
@@ -385,6 +401,14 @@ str.root_criteria <- function(object, ...) {
 "is_rstudio_project"
 
 #' @details
+#' `is_vscode_project` looks for a `.vscode` directory.
+#'
+#' @format NULL
+#' @rdname criteria
+#' @export
+"is_vscode_project"
+
+#' @details
 #' `is_r_package` looks for a `DESCRIPTION` file.
 #'
 #' @format NULL
@@ -407,6 +431,15 @@ str.root_criteria <- function(object, ...) {
 #' @rdname criteria
 #' @export
 "is_drake_project"
+
+
+#' @details
+#' `is_targets_project` looks for a `_targets.R` file.
+#'
+#' @format NULL
+#' @rdname criteria
+#' @export
+"is_targets_project"
 
 #' @details
 #' `is_pkgdown_project` looks for a `_pkgdown.yml`, `_pkgdown.yaml`, `pkgdown/_pkgdown.yml` and/or `inst/_pkgdown.yml` file.

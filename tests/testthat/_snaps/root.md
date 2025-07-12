@@ -44,6 +44,9 @@
       $is_rstudio_project
       Root criterion: contains a file matching "[.]Rproj$" with contents matching "^Version: " in the first line
       
+      $is_vscode_project
+      Root criterion: contains a directory ".vscode"
+      
       $is_r_package
       Root criterion: contains a file "DESCRIPTION" with contents matching "^Package: "
       
@@ -55,7 +58,9 @@
       - contains a file "_pkgdown.yml"
       - contains a file "_pkgdown.yaml"
       - contains a file "pkgdown/_pkgdown.yml"
+      - contains a file "pkgdown/_pkgdown.yaml"
       - contains a file "inst/_pkgdown.yml"
+      - contains a file "inst/_pkgdown.yaml"
       
       $is_renv_project
       Root criterion: contains a file "renv.lock" with contents matching ""Packages":\s*\{"
@@ -94,11 +99,12 @@
     Code
       str(criteria)
     Output
-      List of 12
+      List of 13
        $ is_rstudio_project   : chr "Root criterion: contains a file matching \"[.]Rproj$\" with contents matching \"^Version: \" in the first line"
+       $ is_vscode_project    : chr "Root criterion: contains a directory \".vscode\""
        $ is_r_package         : chr "Root criterion: contains a file \"DESCRIPTION\" with contents matching \"^Package: \""
        $ is_remake_project    : chr "Root criterion: contains a file \"remake.yml\""
-       $ is_pkgdown_project   : chr [1:5] "Root criterion: one of" "- contains a file \"_pkgdown.yml\"" "- contains a file \"_pkgdown.yaml\"" "- contains a file \"pkgdown/_pkgdown.yml\"" ...
+       $ is_pkgdown_project   : chr [1:7] "Root criterion: one of" "- contains a file \"_pkgdown.yml\"" "- contains a file \"_pkgdown.yaml\"" "- contains a file \"pkgdown/_pkgdown.yml\"" ...
        $ is_renv_project      : chr "Root criterion: contains a file \"renv.lock\" with contents matching \"\"Packages\":\\s*\\{\""
        $ is_projectile_project: chr "Root criterion: contains a file \".projectile\""
        $ is_quarto_project    : chr "Root criterion: contains a file \"_quarto.yml\""
