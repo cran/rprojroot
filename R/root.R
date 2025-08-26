@@ -201,12 +201,12 @@ has_file <- function(filepath, contents = NULL, n = -1L, fixed = FALSE) {
   }))
 
   desc <- paste0(
-    'contains a file "', filepath, '"',
+    "contains a file '", filepath, "'",
     if (!is.null(contents)) {
       paste0(
         " with contents ",
         if (!fixed) "matching ",
-        '"', contents, '"',
+        "'", contents, "'",
         if (n >= 0L) paste0(" in the first ", format_lines(n))
       )
     }
@@ -232,7 +232,7 @@ has_dir <- function(filepath) {
     dir.exists(testfile)
   }))
 
-  desc <- paste0('contains a directory "', filepath, '"')
+  desc <- paste0("contains a directory '", filepath, "'")
 
   root_criterion(testfun, desc)
 }
@@ -273,12 +273,12 @@ has_file_pattern <- function(pattern, contents = NULL, n = -1L, fixed = FALSE) {
   }))
 
   desc <- paste0(
-    'contains a file matching "', pattern, '"',
+    "contains a file matching '", pattern, "'",
     if (!is.null(contents)) {
       paste0(
         " with contents ",
         if (!fixed) "matching ",
-        '"', contents, '"',
+        "'", contents, "'",
         if (n >= 0L) paste0(" in the first ", format_lines(n))
       )
     }
@@ -313,7 +313,7 @@ has_basename <- function(basename, subdir = NULL) {
 is_rstudio_project <- has_file_pattern("[.]Rproj$", contents = "^Version: ", n = 1L)
 
 #' @export
-is_vscode_project <- has_dir(".vscode")
+is_vscode_project <- has_file(".vscode/settings.json")
 
 #' @export
 is_r_package <- has_file("DESCRIPTION", contents = "^Package: ")
@@ -401,7 +401,7 @@ str.root_criteria <- function(object, ...) {
 "is_rstudio_project"
 
 #' @details
-#' `is_vscode_project` looks for a `.vscode` directory.
+#' `is_vscode_project` looks for a `.vscode/settings.json` file.
 #'
 #' @format NULL
 #' @rdname criteria

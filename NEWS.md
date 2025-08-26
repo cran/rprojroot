@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# rprojroot 2.1.1 (2025-08-26)
+
+## Features
+
+- `is_vscode_project` looks for `.vscode/settings.json` instead of just `.vscode/` (#162, #163).
+
+## Documentation
+
+- Use single quotes to avoid nested double quotes (#161).
+
+
 # rprojroot 2.1.0 (2025-07-12)
 
 ## Bug fixes
